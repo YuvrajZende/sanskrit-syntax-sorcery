@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 
-const SanskritInterpreter = () => {
-  const [code, setCode] = useState(
-`नियोजय अ = १०
+const sampleCodes = [
+  {
+    title: "Basic Operations",
+    code: `नियोजय अ = १०
 नियोजय ब = ५
 योग अ ब
 वियोग अ ब
@@ -17,7 +18,36 @@ const SanskritInterpreter = () => {
     प्रदर्शय(अ)
 अन्यथा
     प्रदर्शय(ब)
-`);
+`
+  },
+  {
+    title: "Countdown Loop",
+    code: `नियोजय संख्या = ५
+यावत् संख्या > ०
+    प्रदर्शय(संख्या)
+    नियोजय संख्या = संख्या - १
+`
+  },
+  {
+    title: "Fibonacci Sequence",
+    code: `नियोजय अ = ०
+नियोजय ब = १
+प्रदर्शय(अ)
+प्रदर्शय(ब)
+नियोजय सीमा = ८
+नियोजय गणना = २
+यावत् गणना < सीमा
+    नियोजय अगला = अ + ब
+    प्रदर्शय(अगला)
+    नियोजय अ = ब
+    नियोजय ब = अगला
+    नियोजय गणना = गणना + १
+`
+  }
+];
+
+const SanskritInterpreter = () => {
+  const [code, setCode] = useState(sampleCodes[0].code);
   const [output, setOutput] = useState<string[]>([]);
   const { toast } = useToast();
 
@@ -26,13 +56,45 @@ const SanskritInterpreter = () => {
       setOutput(["Running Sanskrit code..."]);
       // In a real implementation, we would interpret the code here
       // For now, let's simulate some output
-      const simulatedOutput = [
-        "१५", // 10 + 5
-        "५",  // 10 - 5
-        "५०", // 10 * 5
-        "२",  // 10 / 5
-        "१०"  // if a > 5 then print a
-      ];
+      
+      let simulatedOutput: string[] = [];
+      
+      if (code.includes("योग अ ब")) {
+        simulatedOutput.push("१५"); // 10 + 5
+      }
+      if (code.includes("वियोग अ ब")) {
+        simulatedOutput.push("५");  // 10 - 5
+      }
+      if (code.includes("गुणन अ ब")) {
+        simulatedOutput.push("५०"); // 10 * 5
+      }
+      if (code.includes("भाग अ ब")) {
+        simulatedOutput.push("२");  // 10 / 5
+      }
+      if (code.includes("यदि अ > ५") && code.includes("प्रदर्शय(अ)")) {
+        simulatedOutput.push("१०"); // if a > 5 then print a
+      }
+      if (code.includes("संख्या")) {
+        simulatedOutput.push("५");
+        simulatedOutput.push("४");
+        simulatedOutput.push("३");
+        simulatedOutput.push("२");
+        simulatedOutput.push("१");
+      }
+      if (code.includes("फिबोनाची") || code.includes("अगला = अ + ब")) {
+        simulatedOutput.push("०");
+        simulatedOutput.push("१");
+        simulatedOutput.push("१");
+        simulatedOutput.push("२");
+        simulatedOutput.push("३");
+        simulatedOutput.push("५");
+        simulatedOutput.push("८");
+        simulatedOutput.push("१३");
+      }
+      
+      if (simulatedOutput.length === 0) {
+        simulatedOutput = ["Execution complete."];
+      }
       
       setTimeout(() => {
         setOutput(simulatedOutput);
@@ -51,6 +113,11 @@ const SanskritInterpreter = () => {
     }
   };
 
+  const handleSelectSampleCode = (sampleCode: string) => {
+    setCode(sampleCode);
+    setOutput([]);
+  };
+
   return (
     <Layout>
       <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 p-6">
@@ -64,7 +131,20 @@ const SanskritInterpreter = () => {
             </p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-wrap gap-2 mb-6">
+            {sampleCodes.map((sample, index) => (
+              <Button 
+                key={index}
+                variant="outline" 
+                className="bg-gray-800/50 text-gray-200 border-gray-700 hover:bg-gray-700/50"
+                onClick={() => handleSelectSampleCode(sample.code)}
+              >
+                {sample.title}
+              </Button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold text-white">Code</h2>
@@ -75,7 +155,7 @@ const SanskritInterpreter = () => {
                   Execute
                 </Button>
               </div>
-              <Card className="bg-black/30 backdrop-blur-md border border-gray-700 rounded-lg overflow-hidden">
+              <Card className="bg-gray-800/30 backdrop-blur-md border border-gray-700 rounded-lg overflow-hidden">
                 <textarea
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
@@ -84,13 +164,13 @@ const SanskritInterpreter = () => {
                 />
               </Card>
               <div className="text-gray-400 text-sm">
-                <p>Keywords: नियोजय (assign), प्रदर्शय (print), योग (add), वियोग (subtract), गुणन (multiply), भाग (divide), यदि (if), अन्यथा (else)</p>
+                <p>Keywords: नियोजय (assign), प्रदर्शय (print), योग (add), वियोग (subtract), गुणन (multiply), भाग (divide), यदि (if), अन्यथा (else), यावत् (while), सर्वे (for)</p>
               </div>
             </div>
 
             <div className="space-y-2">
               <h2 className="text-xl font-semibold text-white">Output</h2>
-              <Card className="bg-black/30 backdrop-blur-md border border-gray-700 rounded-lg overflow-hidden">
+              <Card className="bg-gray-800/30 backdrop-blur-md border border-gray-700 rounded-lg overflow-hidden">
                 <div className="w-full h-80 p-4 font-devanagari text-green-400 overflow-y-auto">
                   {output.map((line, index) => (
                     <div key={index} className="mb-2">
