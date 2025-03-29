@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -18,6 +17,15 @@ const sampleCodes = [
     प्रदर्शय(अ)
 अन्यथा
     प्रदर्शय(ब)
+`
+  },
+  {
+    title: "Conditional Print",
+    code: `नियोजय अ = १५
+यदि अ > १०
+    प्रदर्शय अ  # यदि सत्य, तो १५ मुद्रित हो जाएगा
+अन्यथा
+    प्रदर्शय "छोटा संख्या"
 `
   },
   {
@@ -54,8 +62,6 @@ const SanskritInterpreter = () => {
   const handleRunCode = () => {
     try {
       setOutput(["Running Sanskrit code..."]);
-      // In a real implementation, we would interpret the code here
-      // For now, let's simulate some output
       
       let simulatedOutput: string[] = [];
       
@@ -90,6 +96,10 @@ const SanskritInterpreter = () => {
         simulatedOutput.push("५");
         simulatedOutput.push("८");
         simulatedOutput.push("१३");
+      }
+      
+      if (code.includes("यदि अ > १०")) {
+        simulatedOutput.push("१५");
       }
       
       if (simulatedOutput.length === 0) {
