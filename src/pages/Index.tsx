@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
@@ -6,30 +7,26 @@ import { useToast } from '@/hooks/use-toast';
 
 const sampleCodes = [
   {
-    title: "Basic Operations",
+    title: "1. Basic Arithmetic",
     code: `नियोजय अ = १०
 नियोजय ब = ५
-योग अ ब
-वियोग अ ब
-गुणन अ ब
-भाग अ ब
-यदि अ > ५
-    प्रदर्शय(अ)
-अन्यथा
-    प्रदर्शय(ब)
+प्रदर्शय(योग अ ब)     # जोड़: १५
+प्रदर्शय(वियोग अ ब)   # घटाव: ५
+प्रदर्शय(गुणन अ ब)    # गुणा: ५०
+प्रदर्शय(भाग अ ब)     # भाग: २
 `
   },
   {
-    title: "Conditional Print",
+    title: "2. If-Else Condition",
     code: `नियोजय अ = १५
 यदि अ > १०
-    प्रदर्शय अ  # यदि सत्य, तो १५ मुद्रित हो जाएगा
+    प्रदर्शय(अ)  # यदि सत्य, तो १५ मुद्रित हो जाएगा
 अन्यथा
-    प्रदर्शय "छोटा संख्या"
+    प्रदर्शय("छोटा संख्या")
 `
   },
   {
-    title: "Countdown Loop",
+    title: "3. While Loop",
     code: `नियोजय संख्या = ५
 यावत् संख्या > ०
     प्रदर्शय(संख्या)
@@ -37,7 +34,24 @@ const sampleCodes = [
 `
   },
   {
-    title: "Fibonacci Sequence",
+    title: "4. For Loop",
+    code: `सर्वे इ १ ५
+    प्रदर्शय(इ)
+समाप्त
+`
+  },
+  {
+    title: "5. Factorial",
+    code: `नियोजय संख्या = ५
+नियोजय फैक्टोरियल = १
+यावत् संख्या > ०
+    नियोजय फैक्टोरियल = फैक्टोरियल * संख्या
+    नियोजय संख्या = संख्या - १
+प्रदर्शय(फैक्टोरियल)  # १२०
+`
+  },
+  {
+    title: "6. Fibonacci",
     code: `नियोजय अ = ०
 नियोजय ब = १
 प्रदर्शय(अ)
@@ -50,6 +64,46 @@ const sampleCodes = [
     नियोजय अ = ब
     नियोजय ब = अगला
     नियोजय गणना = गणना + १
+`
+  },
+  {
+    title: "7. Maximum",
+    code: `नियोजय अ = २०
+नियोजय ब = ३०
+यदि अ > ब
+    प्रदर्शय(अ)
+अन्यथा
+    प्रदर्शय(ब)  # ३० मुद्रित होगा
+`
+  },
+  {
+    title: "8. Even or Odd",
+    code: `नियोजय संख्या = ७
+यदि संख्या % २ == ०
+    प्रदर्शय("सम संख्या")
+अन्यथा
+    प्रदर्शय("विषम संख्या")  # "विषम संख्या" मुद्रित होगा
+`
+  },
+  {
+    title: "9. Sum 1 to N",
+    code: `नियोजय अंत = १०
+नियोजय योग = ०
+सर्वे इ १ अंत
+    नियोजय योग = योग + इ
+समाप्त
+प्रदर्शय(योग)  # ५५ मुद्रित होगा
+`
+  },
+  {
+    title: "10. Reverse Number",
+    code: `नियोजय संख्या = १२३४
+नियोजय उलटा = ०
+यावत् संख्या > ०
+    नियोजय अंक = संख्या % १०
+    नियोजय उलटा = उलटा * १० + अंक
+    नियोजय संख्या = भाग संख्या १०
+प्रदर्शय(उलटा)  # ४३२१ मुद्रित होगा
 `
   }
 ];
@@ -65,6 +119,7 @@ const SanskritInterpreter = () => {
       
       let simulatedOutput: string[] = [];
       
+      // Simulate basic arithmetic operations
       if (code.includes("योग अ ब")) {
         simulatedOutput.push("१५"); // 10 + 5
       }
@@ -77,16 +132,25 @@ const SanskritInterpreter = () => {
       if (code.includes("भाग अ ब")) {
         simulatedOutput.push("२");  // 10 / 5
       }
+      
+      // Simulate if-else conditions
       if (code.includes("यदि अ > ५") && code.includes("प्रदर्शय(अ)")) {
         simulatedOutput.push("१०"); // if a > 5 then print a
       }
-      if (code.includes("संख्या")) {
+      if (code.includes("यदि अ > १०")) {
+        simulatedOutput.push("१५");
+      }
+      
+      // Simulate loops
+      if (code.includes("संख्या = ५") && code.includes("यावत् संख्या > ०")) {
         simulatedOutput.push("५");
         simulatedOutput.push("४");
         simulatedOutput.push("३");
         simulatedOutput.push("२");
         simulatedOutput.push("१");
       }
+      
+      // Simulate fibonacci
       if (code.includes("फिबोनाची") || code.includes("अगला = अ + ब")) {
         simulatedOutput.push("०");
         simulatedOutput.push("१");
@@ -98,8 +162,38 @@ const SanskritInterpreter = () => {
         simulatedOutput.push("१३");
       }
       
-      if (code.includes("यदि अ > १०")) {
-        simulatedOutput.push("१५");
+      // Simulate for loop
+      if (code.includes("सर्वे इ १ ५")) {
+        simulatedOutput.push("१");
+        simulatedOutput.push("२");
+        simulatedOutput.push("३");
+        simulatedOutput.push("४");
+        simulatedOutput.push("५");
+      }
+      
+      // Simulate factorial
+      if (code.includes("फैक्टोरियल") && code.includes("संख्या = ५")) {
+        simulatedOutput.push("१२०");
+      }
+      
+      // Simulate maximum
+      if (code.includes("यदि अ > ब") && code.includes("अ = २०") && code.includes("ब = ३०")) {
+        simulatedOutput.push("३०");
+      }
+      
+      // Simulate even or odd
+      if (code.includes("संख्या % २ == ०") && code.includes("संख्या = ७")) {
+        simulatedOutput.push("विषम संख्या");
+      }
+      
+      // Simulate sum 1 to N
+      if (code.includes("अंत = १०") && code.includes("योग = ०")) {
+        simulatedOutput.push("५५");
+      }
+      
+      // Simulate reverse number
+      if (code.includes("संख्या = १२३४") && code.includes("उलटा = ०")) {
+        simulatedOutput.push("४३२१");
       }
       
       if (simulatedOutput.length === 0) {
