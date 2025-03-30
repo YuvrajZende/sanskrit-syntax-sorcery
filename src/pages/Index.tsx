@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Instagram, Github, Twitter } from 'lucide-react';
 import Layout from '@/components/Layout';
@@ -315,7 +316,7 @@ const SanskritInterpreter = () => {
               </a>
             </div>
             <p className="text-xs italic text-gray-400">
-              Created by UV (Aion)
+              &copy; {new Date().getFullYear()} Created by UV (Aion)
             </p>
           </footer>
         </div>
