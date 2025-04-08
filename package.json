@@ -1,7 +1,7 @@
 {
+  "homepage": "https://yuvrajzende.github.io/sanskrit-syntax-sorcery/",
   "name": "vite_react_shadcn_ts",
   "private": true,
-  "homepage": "https://yuvrajzende.github.io/sanskrit-syntax-sorcery/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
